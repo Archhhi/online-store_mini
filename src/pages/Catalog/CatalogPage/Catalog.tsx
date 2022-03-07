@@ -16,7 +16,7 @@ export const Catalog: React.FC = () => {
   const loading = useSelector(getCatalogLoading);
 
   useEffect(() => {
-    dispatch(loadCatalogStart());
+    !listItems.length && dispatch(loadCatalogStart());
   }, []);
 
   const onAddItemToCart = ({ id, image, name, price }: CatalogRawData) => {
