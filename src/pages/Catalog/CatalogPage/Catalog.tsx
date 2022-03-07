@@ -9,7 +9,7 @@ import { getCartItems } from '../../Cart/selectors';
 import { Preloader } from '../../../common/components/Preloader/Preloader';
 import { ItemProductList } from '../ItemProductList/ItemProductList';
 
-export const Catalog: React.FC = () => {
+export const Catalog = () => {
   const dispatch = useDispatch();
   const { items: listItems } = useSelector(getCatalog);
   const cartItems = useSelector(getCartItems);

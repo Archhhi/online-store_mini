@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import s from './ItemProductList.module.css';
 import { NavLink } from 'react-router-dom';
 import { CART_ROUTE } from '../../../router/routes';
@@ -11,31 +11,39 @@ interface ItemPropsType {
   onAddItemToCart: (item: CatalogRawData) => void;
 }
 
-export const ItemProductList = ({ listItems, cartItems, onAddItemToCart }: ItemPropsType) => {
-  const items = listItems.map((i) => {
-    return (
-      <div key={i.id} className={s.content__item}>
-        <div className={s.content__itemImageBlock}>
-          <img src={i.image} alt={'изображение товара'} className={s.content__itemImage} />
-        </div>
-        <div className={s.content__descriptionBlock}>
-          <div>
-            <span>{i.name}</span>
+export const ItemProductList: React.FC<ItemPropsType> = ({
+  listItems,
+  cartItems,
+  onAddItemToCart,
+}) => {
+  const items = useMemo(
+    () =>
+      listItems.map((i) => {
+        return (
+          <div key={i.id} className={s.content__item}>
+            <div className={s.content__itemImageBlock}>
+              <img src={i.image} alt={'изображение товара'} className={s.content__itemImage} />
+            </div>
+            <div className={s.content__descriptionBlock}>
+              <div>
+                <span>{i.name}</span>
+              </div>
+              <div className={s.content__actionBlock}>
+                <span>{i.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽'}</span>
+                {!cartItems.some((el) => el.id === i.id) ? (
+                  <button onClick={() => onAddItemToCart(i)}>Добавить в корзину</button>
+                ) : (
+                  <NavLink to={CART_ROUTE}>
+                    <button>Оформить заказ</button>
+                  </NavLink>
+                )}
+              </div>
+            </div>
           </div>
-          <div className={s.content__actionBlock}>
-            <span>{i.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽'}</span>
-            {!cartItems.some((el) => el.id === i.id) ? (
-              <button onClick={() => onAddItemToCart(i)}>Добавить в корзину</button>
-            ) : (
-              <NavLink to={CART_ROUTE}>
-                <button>Оформить заказ</button>
-              </NavLink>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  });
+        );
+      }),
+    [listItems, cartItems]
+  );
 
   return <>{items}</>;
 };

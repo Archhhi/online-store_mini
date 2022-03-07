@@ -6,7 +6,7 @@ import { CatalogRawData } from '../../Catalog/types';
 import { removeCartItem } from '../actions';
 import { ItemCartList } from '../ItemCartList/ItemCartList';
 
-export const Cart: React.FC = () => {
+export const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector(getCartItems);
 
