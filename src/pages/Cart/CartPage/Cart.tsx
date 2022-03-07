@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import s from './Cart.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCartItems } from '../selectors';
@@ -10,11 +10,15 @@ export const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector(getCartItems);
 
-  const totalPrice =
-    cartItems
-      .reduce((acc, currentValue) => acc + currentValue.price, 0)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
+  // Считаем итоговую сумму товаров
+  const totalPrice = useMemo(
+    () =>
+      cartItems
+        .reduce((acc, currentValue) => acc + currentValue.price, 0)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽',
+    [cartItems]
+  );
 
   const onRemoveItem = (id: CatalogRawData['id']) => {
     dispatch(removeCartItem(id));

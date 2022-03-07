@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import s from './Header.module.css';
 import cartIcon from '../../../assets/image/cart.png';
@@ -10,7 +10,8 @@ export const Header: React.FC = () => {
   const history = useHistory<History>();
   const cartItems = useSelector(getCartItems);
 
-  const countItemsInCart = cartItems.length;
+  // Количество товаров в корзине
+  const countItemsInCart = useMemo(() => cartItems.length, [cartItems]);
 
   return (
     <header className={s.header}>
@@ -29,7 +30,9 @@ export const Header: React.FC = () => {
           {(history.location.pathname === CATALOG_ROUTE || history.location.pathname === '/') && (
             <NavLink to={CART_ROUTE}>
               <li className={s.header__btnToCart}>
-                <span className={s.header__countItemInCart}>{countItemsInCart}</span>
+                {countItemsInCart !== 0 && (
+                  <span className={s.header__countItemInCart}>{countItemsInCart}</span>
+                )}
                 <img src={cartIcon} alt={'Корзина'} />
                 <span>Корзина</span>
               </li>
