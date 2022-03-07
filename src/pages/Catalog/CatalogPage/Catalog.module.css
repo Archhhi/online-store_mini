@@ -1,0 +1,29 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    min-height: calc(100vh - 60px);
+    font-family: sans-serif;
+    padding-bottom: 20px;
+}
+
+.content__itemsBlock {
+    display: grid;
+    flex-wrap: wrap;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 1000px) {
+    .content__itemsBlock {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .content__itemsBlock {
+        grid-template-columns: 1fr;
+    }
+}
